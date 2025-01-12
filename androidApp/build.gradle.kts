@@ -44,5 +44,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.decompose)
     implementation(libs.decompose.extensions)
+    implementation(libs.essenty.lifecycle)
+    implementation(libs.essenty.stateKeeper)
     debugImplementation(libs.compose.ui.tooling)
 }

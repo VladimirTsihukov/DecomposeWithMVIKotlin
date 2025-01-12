@@ -27,7 +27,7 @@ fun DetailContent(
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = modelValue,
+            text = modelValue.text,
             fontSize = 40.sp,
             fontStyle = FontStyle.Normal,
         )
