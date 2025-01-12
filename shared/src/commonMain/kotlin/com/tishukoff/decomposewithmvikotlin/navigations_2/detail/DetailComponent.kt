@@ -4,7 +4,9 @@ import com.arkivanov.decompose.value.Value
 
 interface DetailComponent {
 
-    val model: Value<String>
+    val model: Value<DetailComponentModel>
 
     fun onFinish()
+
+    data class DetailComponentModel(val text: String)
 }

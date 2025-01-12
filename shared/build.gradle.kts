@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.konan.target.Family
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -16,25 +18,42 @@ kotlin {
             }
         }
     }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-            isStatic = true
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    targets
+        .filterIsInstance<KotlinNativeTarget>()
+        .filter { it.konanTarget.family == Family.IOS }
+        .forEach { target ->
+            target.binaries {
+                framework {
+                    baseName = "shared"
+                    isStatic = true
+
+                    export(libs.decompose)
+                    export(libs.decompose.extensions)
+                    export(libs.essenty.lifecycle)
+                }
+            }
         }
-    }
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.decompose)
-            implementation(libs.decompose.extensions)
+            api(libs.decompose)
+            api(libs.decompose.extensions)
+            api(libs.essenty.lifecycle)
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+
+        iosMain {
+            dependencies {
+
+            }
         }
     }
 }
